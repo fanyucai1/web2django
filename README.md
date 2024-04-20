@@ -1,40 +1,45 @@
-1.  安装django
+# 快速开始
+
+1.  安装django并创建新的project
 ```{.cs}
 pip3 install Django
-```
-2.  创建project ::
-```{.cs}
 django-admin startproject myproject
+cd myproject
+mkdir -p templates/admin
+mkdir -p static/
+mkdir -p media/
 ```
-3.  创建app
+
+2.  安装simpleui，并且下载simpleui的demo作为参考学习链接
 ```{.cs}
-cd myproject/
-django-admin startapp myapp
+pip3 install django-simpleui
+wget https://github.com/newpanjing/simpleui_demo/archive/refs/heads/master.zip
+unzip master.zip
+rm -rf master.zip
 ```
-4.  创建文件夹,存放渲染文件
+
+3.  修改myproject/settings.py
 ```{.cs}
-mkdir -p static/css/
-mkdir -p static/js/
-mkdir -p static/vendor/
-mkdir -p templates/
-mkdir -p upload/
-```
-5.  修改myproject/settings.py
-```{.cs}
-ALLOWED_HOSTS = ["*"]#修改添加*号,这样就可以使用localhost使用了
+import os #添加
 INSTALLED_APPS = [
-            'django.contrib.admin',
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'django.contrib.sessions',
-            'django.contrib.messages',
-            'django.contrib.staticfiles',
-            **'myapp',**#添加的部分为上面建立的app的名字
-        ]
+    'simpleui', #添加的部分为上面建立的app的名字
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+]
+ALLOWED_HOSTS = ['*']#允许访问所有host
+LANGUAGE_CODE = 'zh-hans'#支持中文修改
+TIME_ZONE = 'Asia/Shanghai'#支持中文修改
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]#添加本地静态文件目录
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],#修改部分
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],#添加本地模版文件
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -46,32 +51,45 @@ TEMPLATES = [
         },
     },
 ]
-
-LANGUAGE_CODE = 'zh-hans' #修改
-TIME_ZONE = 'Asia/Shanghai' #修改
-USE_I18N = True
-USE_L10N = True
-USE_TZ = False #修改
-
-STATIC_URL = '/static/'
-#添加如下：
-STATICFILES_DIRS=(
-    os.path.join(BASE_DIR,'static'),
-)
-
-#事实上MEDIA_ROOT和MEDIA_URL代表的是用户上传后的文件一般保存的地方,在Django的FileField和ImageField这样的Model类中，
-有upload_to参数可选。#当upload_to设置相关的地址后，如：upload_to="username"；
-文件上传后将自动保存到 os.path.join(MEDIA_ROOT, upload_to)。所以可以添加如下代码
-
-MEDIA_ROOT=os.path.join(BASE_DIR,'upload')
 ```
 
-6.  启动服务器
+4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
 ```{.cs}
-python3 manage.py runserver 8080
-# 默认localhost=127.0.0.1,浏览器访问 http://127.0.0.1:8080 or  http://localhost:8080
-# 也可以更改IP地址
-python manage.py runserver 0.0.0.0:8000
+python3 manage.py migrate
+python3 manage.py createsuperuser
+python3 manage.py collectstatic
+```
+
+5.  修改myproject/urls.py
+```{.cs}
+urlpatterns = [
+    path('', admin.site.urls),#添加项
+]
+```
+
+6.  启动服务器，IP地址和端口可改
+```{.cs}
+python3 manage.py runserver 127.0.0.1:8000
+```
+
+7. 创建app
+```{.cs}
+python3 manage.py startapp myapp
 ```
 
 
+
+
+# FAQ:
+
+1.  Django 运行端口被占用 Error: That port is already in use
+```{.cs}
+lsof -i:8000
+```
+
+2. django.db.utils.OperationalError: no such table: django_sessio
+```{.cs}
+python3 manage.py migrate
+```
+
+/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages
