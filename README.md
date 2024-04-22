@@ -55,6 +55,7 @@ TEMPLATES = [
 SIMPLEUI_STATIC_OFFLINE = True#指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以。适合内网项目
 SIMPLEUI_HOME_ACTION = False#取消主页面显示最近动作
 SIMPLEUI_HOME_INFO = False#不显示服务器信息
+SIMPLEUI_HOME_QUICK = False#隐藏快捷操作
 ```
 
 4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
@@ -94,9 +95,9 @@ class MyappConfig(AppConfig):
 class task(models.Model):
     pub_date=models.DateTimeField(verbose_name="时间")
     user_test=models.CharField(verbose_name="用户名",max_length=200)
-    class Meta: #可有可无
-        table_name='my_owner_table'#重新定义数据表格的名称
-        managed = False #默认为TRUE,可以对数据库表进行migrate或migrations、删除等操作
+    class Meta:#下面是所有可能用到的 Meta 选项. 没有一个选项是必需的. 是否添加 class Meta 到你的 model 完全是可选的.
+        verbose="任务列表"
+        verbose_name_plural = "任务列表"
 ```
 数据类型
 ```{.cs}
@@ -116,7 +117,6 @@ class taskModelAdmin(admin.ModelAdmin):
 admin.site.register(task,taskModelAdmin)
 ```
 
-
 # FAQ:
 
 1.  Django 运行端口被占用 Error: That port is already in use
@@ -128,6 +128,7 @@ lsof -i:8000
 ```{.cs}
 python3 manage.py migrate
 ```
+
 
 
 
