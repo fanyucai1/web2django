@@ -51,6 +51,10 @@ TEMPLATES = [
         },
     },
 ]
+######以下是针对simpleui的参数修改设定
+SIMPLEUI_STATIC_OFFLINE = True#指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以。适合内网项目
+SIMPLEUI_HOME_ACTION = False#取消主页面显示最近动作
+SIMPLEUI_HOME_INFO = False#不显示服务器信息
 ```
 
 4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
