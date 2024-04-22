@@ -72,12 +72,45 @@ urlpatterns = [
 python3 manage.py runserver 127.0.0.1:8000
 ```
 
-7. 创建app
+7-1. 创建app
 ```{.cs}
 python3 manage.py startapp myapp
 ```
 
+7-2.    给你的app改个名字,修改myapp/apps.py脚本
+```{.cs}
+class MyappConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'myapp'
+    verbose_name="宏基因组数据分析"#添加行，verbose_name的意思，就是给你的模型类起一个更可读的名字
+```
 
+7-3. 修改myapp/models.py脚本，定义新的数据表格
+```{.cs}
+class task(models.Model):
+    pub_date=models.DateTimeField(verbose_name="时间")
+    user_test=models.CharField(verbose_name="用户名",max_length=200)
+    class Meta: #可有可无
+        table_name='my_owner_table'#重新定义数据表格的名称
+        managed = False #默认为TRUE,可以对数据库表进行migrate或migrations、删除等操作
+```
+数据类型
+```{.cs}
+no = models.AutoField(primary_key=True, verbose_name='编号')#自增ID字段，默认会生成一个名称为id的列，如果要显示的自定义一个自增列，必须将给列设置为主键 primary_key=True
+name = models.CharField(max_length=50, verbose_name='名称')#用于较短的字符串，如要保存大量文本, 使用TextField。必须max_length参数
+is_hot = models.BooleanField(verbose_name='是否热门')#存储True或False
+file_upload = models.FileField(upload_to="uploads/%Y/%m/%d/")#file will be saved to MEDIA_ROOT/uploads/2015/01/30
+photo_upload= models.ImageField(upload_to="uploads/%Y/%m/%d/",verbose_name='照片')#继承FileField 的所有属性和方法，但也验证上传的对象是有效的图像
+```
+7-4. 注册模型类,修改myapp/admin.py，添加以下内容
+```{.cs}
+from .models import task #添加
+class taskModelAdmin(admin.ModelAdmin):
+    list_display = ('pub_date','user_test')
+    search_fields = ('user_test',)
+    ordering = ('user_test',)
+admin.site.register(task,taskModelAdmin)
+```
 
 
 # FAQ:
@@ -91,5 +124,7 @@ lsof -i:8000
 ```{.cs}
 python3 manage.py migrate
 ```
+
+
 
 /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages
