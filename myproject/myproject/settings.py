@@ -120,6 +120,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#这是文件上传路径
+MEDIA_URL = '/media/'#添加
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

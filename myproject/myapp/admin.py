@@ -4,10 +4,6 @@ from django.contrib import admin
 from .models import task
 
 class taskModelAdmin(admin.ModelAdmin):
-    list_display = ('no','pub_date','user_test')
-    search_fields = ('user_test','pub_date')
-    ordering = ('user_test',)
-
-
+    list_display = ('project','pub_date','fastq_R1','fastq_R2')
 
 admin.site.register(task,taskModelAdmin)

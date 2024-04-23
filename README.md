@@ -36,6 +36,10 @@ TIME_ZONE = 'Asia/Shanghai'#支持中文修改
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]#添加本地静态文件目录
 
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加，这是文件上传路径
+MEDIA_URL = '/media/'#添加
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -51,6 +55,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 ######以下是针对simpleui的参数修改设定
 SIMPLEUI_STATIC_OFFLINE = True#指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以。适合内网项目
 SIMPLEUI_HOME_ACTION = False#取消主页面显示最近动作
@@ -60,8 +66,6 @@ SIMPLEUI_HOME_QUICK = False#隐藏快捷操作
 
 4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
 ```{.cs}
-python3 manage.py migrate
-python3 manage.py createsuperuser
 python3 manage.py collectstatic
 ```
 
@@ -95,7 +99,9 @@ class MyappConfig(AppConfig):
 class task(models.Model):
     pub_date=models.DateTimeField(verbose_name="时间")
     user_test=models.CharField(verbose_name="用户名",max_length=200)
-    class Meta:#下面是所有可能用到的 Meta 选项. 没有一个选项是必需的. 是否添加 class Meta 到你的 model 完全是可选的.
+    #下面是所有可能用到的 Meta 选项. 没有一个选项是必需的. 是否添加 class Meta 到你的 model 完全是可选的.
+    #https://www.cnblogs.com/sui776265233/p/10670757.html
+    class Meta:
         verbose="任务列表"
         verbose_name_plural = "任务列表"
 ```
@@ -129,7 +135,14 @@ lsof -i:8000
 python3 manage.py migrate
 ```
 
-
+3.开发过程中app数据更新
+```{.cs}
+删除：myapp/migrations/下除__init__.py所有文件
+删除：db.sqlite3
+python3 manage.py makemigrations myapp
+python3 manage.py migrate
+python3 manage.py createsuperuser
+```
 
 
 /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages
