@@ -96,14 +96,17 @@ class MyappConfig(AppConfig):
 
 7-3. 修改myapp/models.py脚本，定义新的数据表格
 ```{.cs}
+def user_directory_path(instance, filename):#为了实现上传的文件动态存储
+    return 'user_data/{0}/{1}'.format(instance.project, filename)
+
 class task(models.Model):
-    pub_date=models.DateTimeField(verbose_name="时间")
-    user_test=models.CharField(verbose_name="用户名",max_length=200)
-    #下面是所有可能用到的 Meta 选项. 没有一个选项是必需的. 是否添加 class Meta 到你的 model 完全是可选的.
-    #https://www.cnblogs.com/sui776265233/p/10670757.html
+    project= models.CharField(max_length=100, verbose_name='项目编号')
+    pub_date=models.DateTimeField(auto_now_add=True,verbose_name="上传时间")
+    fastq_R1= models.FileField(upload_to=user_directory_path,verbose_name="R1 fastq")
+    fastq_R2= models.FileField(upload_to=user_directory_path,verbose_name="R2 fastq")
     class Meta:
-        verbose="任务列表"
-        verbose_name_plural = "任务列表"
+        verbose_name = "数据分析"
+        verbose_name_plural = "数据分析"
 ```
 数据类型
 ```{.cs}
@@ -117,9 +120,8 @@ photo_upload= models.ImageField(upload_to="uploads/%Y/%m/%d/",verbose_name='照�
 ```{.cs}
 from .models import task #添加
 class taskModelAdmin(admin.ModelAdmin):
-    list_display = ('pub_date','user_test')
-    search_fields = ('user_test',)
-    ordering = ('user_test',)
+    list_display = ('project','pub_date','fastq_R1','fastq_R2')
+
 admin.site.register(task,taskModelAdmin)
 ```
 
