@@ -16,7 +16,7 @@ class TaskAdmin(admin.ModelAdmin):
     ]
 
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('project', 'pub_date')
+    list_display = ('project', 'pub_date','end_time')
     def has_add_permission(self, request):#在页面上禁止添加
         return False
     def has_change_permission(self, request):#在页面上禁止修改
