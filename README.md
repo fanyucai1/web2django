@@ -1,6 +1,6 @@
 # 快速开始
 
-1.  安装django并创建新的project
+1.  安装Django并创建新的project
 ```{.cs}
 pip3 install Django
 django-admin startproject myproject #创建新的project,名字可改
