@@ -22,7 +22,6 @@ rm -rf master.zip
 ```{.cs}
 import os #添加
 INSTALLED_APPS = [
-    'simpleui', #添加的部分为上面建立的app的名字
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,12 +32,10 @@ INSTALLED_APPS = [
 ALLOWED_HOSTS = ['*']#允许访问所有host
 LANGUAGE_CODE = 'zh-hans'#支持中文修改
 TIME_ZONE = 'Asia/Shanghai'#支持中文修改
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]#添加本地静态文件目录
-
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加，这是文件上传路径
-MEDIA_URL = '/media/'#添加
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")#添加
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加
+MEDIA_URL = 'media/'#添加
 
 TEMPLATES = [
     {
@@ -55,13 +52,6 @@ TEMPLATES = [
         },
     },
 ]
-
-
-######以下是针对simpleui的参数修改设定
-SIMPLEUI_STATIC_OFFLINE = True#指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以。适合内网项目
-SIMPLEUI_HOME_ACTION = False#取消主页面显示最近动作
-SIMPLEUI_HOME_INFO = False#不显示服务器信息
-SIMPLEUI_HOME_QUICK = False#隐藏快捷操作
 ```
 
 4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
@@ -84,6 +74,10 @@ python3 manage.py runserver 127.0.0.1:8000
 7-1. 创建app
 ```{.cs}
 python3 manage.py startapp myapp
+cd myapp/
+创建urls.py脚本
+cd myapp/
+mkdir templates/
 ```
 
 7-2.    给你的app改个名字,修改myapp/apps.py脚本

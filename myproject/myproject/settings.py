@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'simpleui', #添加的部分为上面建立的app的名字
     'myapp.apps.MyappConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -118,21 +117,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#这是文件上传路径
-MEDIA_URL = '/media/'#添加
+MEDIA_URL = 'media/'#添加
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-SIMPLEUI_STATIC_OFFLINE = True#指定simpleui 是否以脱机模式加载静态资源，为True的时候将默认从本地读取所有资源，即使没有联网一样可以。适合内网项目
-SIMPLEUI_HOME_ACTION = False#取消主页面显示最近动作
-SIMPLEUI_HOME_INFO = False#不显示服务器信息
-SIMPLEUI_HOME_QUICK = False#隐藏快捷操作
-SIMPLEUI_LOGO = STATIC_URL+'Illumina-logo.png'
 
