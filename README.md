@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['*']#允许访问所有host
 LANGUAGE_CODE = 'zh-hans'#支持中文修改
 TIME_ZONE = 'Asia/Shanghai'#支持中文修改
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")#添加
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加
+STATIC_ROOT = os.path.join(BASE_DIR, "static")#添加 （你的静态文件存放目录，例如你程序需要加载的图片以及css文件等）
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加 （用户上传的文件默认会上传到这个路径下）
 MEDIA_URL = 'media/'#添加
 
 TEMPLATES = [
@@ -54,7 +54,7 @@ TEMPLATES = [
 ]
 ```
 
-4.  创建管理员账号，将simpleui静态文件静态文件克隆到根目录
+4.  创建管理员账号，将静态文件静态文件克隆到project目录下
 ```{.cs}
 python3 manage.py collectstatic
 ```
