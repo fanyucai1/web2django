@@ -132,7 +132,7 @@ python3 manage.py migrate
 3.开发过程中app数据更新
 ```{.cs}
 删除：myapp/migrations/下除__init__.py所有文件
-删除：db.sqlite3
+rm -rf db.sqlite3
 python3 manage.py makemigrations myapp
 python3 manage.py migrate
 python3 manage.py createsuperuser
