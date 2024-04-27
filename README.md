@@ -137,3 +137,20 @@ python3 manage.py makemigrations myapp
 python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
+
+# linux部署:Django+uwsgi+nginx
+
+Nginx负责接收和处理客户端的HTTP请求，并提供静态文件服务、负载均衡和缓存等功能，而uWSGI负责运行Django应用程序，并处理与之相关的通信和请求。它们的配合使得Django应用程序能够高效、稳定地提供Web服务。
+
+1. uwsgi是python模块
+```{.cs}
+pip3 install uwsgi
+uwsgi --ini /path/to/uwsgi.ini
+```
+
+2. 安装nginx
+```{.cs}
+yum install nginx
+systemctl start nginx.service#启动nginx服务
+systemctl enable nginx#Linux开机默认启动nginx服务
+```
