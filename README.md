@@ -138,7 +138,7 @@ python3 manage.py migrate
 python3 manage.py createsuperuser
 ```
 
-# linux部署:Django+uwsgi+nginx
+# Linux部署:Django+uwsgi+nginx
 
 1. uwsgi是python模块,uWSGI负责运行Django应用程序，并处理与之相关的通信和请求。它们的配合使得Django应用程序能够高效、稳定地提供Web服务
 ```{.cs}
