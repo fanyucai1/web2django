@@ -7,7 +7,6 @@ import subprocess
 from datetime import datetime
 from django.conf import settings
 
-
 @receiver(post_save, sender=Task)
 def sync_task_to_result(sender,instance,**kwargs):#同步添加
     try:
