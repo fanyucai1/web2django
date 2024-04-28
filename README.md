@@ -140,10 +140,30 @@ python3 manage.py createsuperuser
 
 # Linux部署:Django+uWSGI+nginx
 
+![Django+uWSGI+nginx](./Django+uWSGI+nginx.png)
+
 1. uWSGI负责运行Django应用程序，并处理与之相关的通信和请求。它们的配合使得Django应用程序能够高效、稳定地提供Web服务
 ```{.cs}
 pip3 install uwsgi
 uwsgi --ini /path/to/uwsgi.ini
+```
+uwsgi.ini示例：
+```{.cs}
+[uwsgi]
+#project目录。
+chdir=/path/to/your/django/myproject
+# 指定Django项目的wsgi应用程序
+module=myproject.wsgi
+#启动主进程
+master=True
+#指定uWSGI监听的地址和端口
+socket=127.0.0.1:9000
+# 指定工作进程的数量
+processes=10
+#当服务器退出的时候自动删除unix socket文件和pid文件。
+vacuum = true
+#内部缓存区大小，默认是4k,可设置到64k
+buffer-size=65536
 ```
 
 2. nginx负责接收和处理客户端的HTTP请求，并提供静态文件服务、负载均衡和缓存等功能
@@ -151,4 +171,59 @@ uwsgi --ini /path/to/uwsgi.ini
 yum install nginx
 systemctl start nginx.service#启动nginx服务
 systemctl enable nginx#Linux开机默认启动nginx服务
+```
+新建uwsgi_params文件，内容如下：
+```{.cs}
+
+uwsgi_param  QUERY_STRING       $query_string;
+uwsgi_param  REQUEST_METHOD     $request_method;
+uwsgi_param  CONTENT_TYPE       $content_type;
+uwsgi_param  CONTENT_LENGTH     $content_length;
+
+uwsgi_param  REQUEST_URI        $request_uri;
+uwsgi_param  PATH_INFO          $document_uri;
+uwsgi_param  DOCUMENT_ROOT      $document_root;
+uwsgi_param  SERVER_PROTOCOL    $server_protocol;
+uwsgi_param  REQUEST_SCHEME     $scheme;
+uwsgi_param  HTTPS              $https if_not_empty;
+
+uwsgi_param  REMOTE_ADDR        $remote_addr;
+uwsgi_param  REMOTE_PORT        $remote_port;
+uwsgi_param  SERVER_PORT        $server_port;
+uwsgi_param  SERVER_NAME        $server_name;
+```
+
+在不改变原/etc/nginx/nginx.conf配置的情况建议在你的项目下新建mysite_ngix.conf,内容如下：
+```{.cs}
+upstream django {
+    server 127.0.0.1:9000
+}
+
+server {
+    listen      8000;
+    server_name example.com;
+    charset     utf-8;
+
+    client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /media  {
+        alias /path/to/your/mysite/media;
+    }
+
+    location /static {
+        alias /path/to/your/mysite/static;
+    }
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  django;
+        include     /path/to/your/mysite/uwsgi_params; # the uwsgi_params file you installed
+    }
+}
+
+```
+然后建立软链接
+```{.cs}
+sudo ln -s ~/path/to/your/mysite/mysite_nginx.conf /etc/nginx/sites-enabled/
 ```
