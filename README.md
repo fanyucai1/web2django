@@ -148,6 +148,8 @@ python3 manage.py createsuperuser
 
 [Django Nginx+uwsgi 安装配置](https://www.runoob.com/django/django-nginx-uwsgi.html)
 
+[如何用 uWSGI 托管 Django](https://docs.djangoproject.com/zh-hans/5.0/howto/deployment/wsgi/uwsgi/#)
+
 1. uWSGI负责运行Django应用程序，并处理与之相关的通信和请求。它们的配合使得Django应用程序能够高效、稳定地提供Web服务
 ```{.cs}
 pip3 install uwsgi
