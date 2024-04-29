@@ -66,7 +66,7 @@ python3 manage.py createsuperuser #提示输入邮箱可以回车直接忽略
 
 5.  启动服务器，IP地址和端口可改,在浏览器输入对应的IP地址，然后输入刚才的用户名以及密码就可以实现登陆
 ```{.cs}
-python3 manage.py runserver 127.0.0.1:8000
+python3 manage.py runserver 10.88.32.72:9000
 ```
 登陆的django模版实际位于你安装的django目录(如下)的index.html
 ```{.cs}
@@ -159,13 +159,13 @@ uwsgi.ini示例：
 ```{.cs}
 [uwsgi]
 #project目录。
-chdir=/path/to/your/django/myproject
+chdir=/staging4/fanyucai/web2django/myproject/
 # 指定Django项目的wsgi应用程序
 module=myproject.wsgi
 #启动主进程
 master=True
 #指定uWSGI监听的地址和端口
-socket=127.0.0.1:9000
+socket=10.88.32.72:8001
 # 指定工作进程的数量
 processes=10
 #当服务器退出的时候自动删除unix socket文件和pid文件。
@@ -204,7 +204,7 @@ uwsgi_param  SERVER_NAME        $server_name;
 在不改变原/etc/nginx/nginx.conf配置的情况建议在你的项目下新建mysite_ngix.conf,内容如下：
 ```{.cs}
 upstream django {
-    server 127.0.0.1:9000
+    server 10.88.32.72:8001;
 }
 
 server {
@@ -214,19 +214,17 @@ server {
 
     client_max_body_size 75M;   # adjust to taste
 
-    # Django media
     location /media  {
-        alias /path/to/your/mysite/media;
+        alias /staging4/fanyucai/web2django/myproject/media;
     }
 
     location /static {
-        alias /path/to/your/mysite/static;
+        alias /staging4/fanyucai/web2django/myproject/static;
     }
 
-    # Finally, send all non-media requests to the Django server.
     location / {
         uwsgi_pass  django;
-        include     /path/to/your/mysite/uwsgi_params; # the uwsgi_params file you installed
+        include     /staging4/fanyucai/web2django/myproject/uwsgi_params;
     }
 }
 
