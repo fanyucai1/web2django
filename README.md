@@ -118,7 +118,6 @@ admin.site.register(task,taskModelAdmin)
 实现对task增删也会同步显示result,所以我添加了signals.py脚本，该脚本会对客户上传的数据进行同步删除，客户只能编辑task,不能编辑result页面
 
 
-
-- [Linux部署:Django+uWSGI+nginx](./Django_uWSGI_ngix/README.md)
+# [Linux部署:Django+uWSGI+nginx](./Django_uWSGI_ngix/README.md)
 
 ![Django+uWSGI+nginx](Django_uWSGI_ngix/Django+uWSGI+nginx.png)
