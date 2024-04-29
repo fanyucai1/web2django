@@ -158,19 +158,11 @@ uwsgi --ini /path/to/uwsgi.ini
 uwsgi.ini示例：
 ```{.cs}
 [uwsgi]
-#project目录。
 chdir=/staging4/fanyucai/web2django/myproject/
-# 指定Django项目的wsgi应用程序
 module=myproject.wsgi
-#启动主进程
 master=True
-#指定uWSGI监听的地址和端口
-socket=10.88.32.72:8001
-# 指定工作进程的数量
-processes=10
-#当服务器退出的时候自动删除unix socket文件和pid文件。
+socket=10.88.32.72:9003
 vacuum = true
-#内部缓存区大小，默认是4k,可设置到64k
 buffer-size=65536
 ```
 
@@ -204,11 +196,11 @@ uwsgi_param  SERVER_NAME        $server_name;
 在不改变原/etc/nginx/nginx.conf配置的情况建议在你的项目下新建mysite_ngix.conf,内容如下：
 ```{.cs}
 upstream django {
-    server 10.88.32.72:8001;
+    server 10.88.32.72:9001;
 }
 
 server {
-    listen      8000;
+    listen      9002;
     server_name example.com;
     charset     utf-8;
 
@@ -227,7 +219,6 @@ server {
         include     /staging4/fanyucai/web2django/myproject/uwsgi_params;
     }
 }
-
 ```
 然后建立软链接
 ```{.cs}
