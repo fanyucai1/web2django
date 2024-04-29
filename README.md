@@ -117,26 +117,7 @@ admin.site.register(task,taskModelAdmin)
 9.我在这里创建了2个models,一个models是用来客户上传数据并启动后台数据分析task，一个models是展示数据分析结果result，另外我想实现两个models
 实现对task增删也会同步显示result,所以我添加了signals.py脚本，该脚本会对客户上传的数据进行同步删除，客户只能编辑task,不能编辑result页面
 
-# FAQ:
 
-1.  Django 运行端口被占用 Error: That port is already in use
-```{.cs}
-lsof -i:8000
-```
-
-2. django.db.utils.OperationalError: no such table: django_sessio
-```{.cs}
-python3 manage.py migrate
-```
-
-3.开发过程中app数据更新
-```{.cs}
-删除：myapp/migrations/下除__init__.py所有文件
-rm -rf db.sqlite3
-python3 manage.py makemigrations myapp
-python3 manage.py migrate
-python3 manage.py createsuperuser
-```
 
 # Linux部署:Django+uWSGI+nginx
 

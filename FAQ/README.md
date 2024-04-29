@@ -14,3 +14,22 @@
         });
     </script>
 ```
+
+# 2.Django 运行端口被占用 Error: That port is already in use
+```{.cs}
+lsof -i:8000
+```
+
+# 3.django.db.utils.OperationalError: no such table: django_sessio
+```{.cs}
+python3 manage.py migrate
+```
+
+# 4.开发过程中app数据更新
+```{.cs}
+删除：myapp/migrations/下除__init__.py所有文件
+rm -rf db.sqlite3
+python3 manage.py makemigrations myapp
+python3 manage.py migrate
+python3 manage.py createsuperuser
+```
