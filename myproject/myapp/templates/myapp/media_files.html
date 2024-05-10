@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index of /</title>
+</head>
+<body>
+<h1>Index of /</h1>
+<pre>
+Name<hr>
+    {% for file in files %}
+        <a href="{{file}}/">{{ file }}</a>
+    {% endfor %}
+<hr>
+</pre>
+</body>
+</html>

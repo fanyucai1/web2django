@@ -46,6 +46,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',# 添加 media context processor
             ],
         },
     },
@@ -57,6 +58,7 @@ TEMPLATES = [
 urlpatterns = [
     path('', admin.site.urls),#修改项,这样在启动第4步的时候，就是登陆页面了，否则默认是http://127.0.0.1:8000/admin
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
 4.创建超级用户
