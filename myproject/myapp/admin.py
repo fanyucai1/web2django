@@ -26,17 +26,6 @@ class TaskAdmin(admin.ModelAdmin):
         obj.author = request.user
         obj.save()
 
-    change_form_template = 'admin/custom_change_form.html'  # 自定义模板
-
-    def change_view(self, request, object_id, form_url="", extra_context=None):
-        extra_context = extra_context or {}
-        return super().change_view(
-            request,
-            object_id,
-            form_url,
-            extra_context=extra_context,
-        )
-
 class ResultAdmin(admin.ModelAdmin):
     list_display = ('project', 'creat_date','update_time','log_file')
     def has_add_permission(self, request):#在页面上禁止添加
