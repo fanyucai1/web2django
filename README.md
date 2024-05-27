@@ -8,7 +8,6 @@ cd myproject
 mkdir -p templates/admin
 mkdir -p static/
 mkdir -p media/
-python3 manage.py collectstatic #默认把django对应的静态文件，拷贝到当前项目目录下，也就是static/目录下
 python3 manage.py startapp myapp #创建app,名字可改
 cd myapp/
 #可创建urls.py脚本，以后这个app对应的url可以都写在这个里面，如果项目较小也可以不写(非必须)
@@ -31,7 +30,7 @@ ALLOWED_HOSTS = ['*']#允许访问所有host
 LANGUAGE_CODE = 'zh-hans'#支持中文修改
 TIME_ZONE = 'Asia/Shanghai'#支持中文修改
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")#添加 （你的静态文件存放目录，例如你程序需要加载的图片以及css文件等）
+STATICFILES_DIRS = [BASE_DIR / "static",]#添加 （你的静态文件存放目录，例如你程序需要加载的图片以及css文件等）
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#添加 （用户上传的文件默认会上传到这个路径下）
 MEDIA_URL = 'media/'#添加
 
@@ -96,7 +95,7 @@ class task(models.Model):
     fastq_R2= models.FileField(upload_to=user_directory_path,verbose_name="R2 fastq")
     class Meta:
         verbose_name = "数据分析"
-        verbose_name_plural = "数据分析"
+        verbose_name_plural = verbose_name
 ```
 表格对应的数据类型有很多，常用的有如下：
 ```{.cs}
@@ -123,3 +122,55 @@ admin.site.register(task,taskModelAdmin)
 # [Linux部署:Django+uWSGI+nginx](./Django_uWSGI_ngix/README.md)
 
 ![Django+uWSGI+nginx](Django_uWSGI_ngix/Django+uWSGI+nginx.png)
+
+
+
+
+### 1.如何在登陆网页的时候，设置好默认的用户名与密码，而不需要单独输入？
+```{.cs}
+ /Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/django/contrib/admin/templates/admin/login.html myproject/templates/admin/           
+```
+修改login.html添加JavaScript 代码
+```{.cs}
+{% extends 'admin/login.html' %}
+
+{% block content %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('#id_username').value = 'your_username';
+            document.querySelector('#id_password').value = 'your_password';
+        });
+    </script>
+```
+
+### 2.Django 运行端口被占用 Error: That port is already in use
+```{.cs}
+lsof -i:8000
+```
+
+### 3.django.db.utils.OperationalError: no such table: django_sessio
+```{.cs}
+python3 manage.py migrate
+```
+
+### 4.开发过程中app数据更新
+```{.cs}
+删除：myapp/migrations/下除__init__.py所有文件
+rm -rf db.sqlite3
+python3 manage.py makemigrations myapp
+python3 manage.py migrate
+python3 manage.py createsuperuser
+```
+
+### 5.将程序需要的静态文件clone到本地
+```{.cs}
+#在settings.py添加STATIC_ROOT = os.path.join(BASE_DIR, "static")，运行下面脚本，会将程序所需要的静态文件，拷贝到STATIC_ROOT
+python3 manage.py collectstatic 
+```
+
+### 6.如果需要加载自己的静态文件如CSS、JS等，需要在settings.py添加STATICFILES_DIRS
+```{.cs}
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+```
