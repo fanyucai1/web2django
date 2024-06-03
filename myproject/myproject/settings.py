@@ -113,7 +113,7 @@ TIME_ZONE = 'Asia/Shanghai'# 默认时区
 #USE_I18N = True# 启用国际化支持
 USE_L10N = False# 启用本地化支持
 USE_TZ = True# 启用时区支持
-DATETIME_FORMAT = 'Y年n月j日 H:i:s'
+DATETIME_FORMAT = 'Y年n月j日 H:i:s1'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
