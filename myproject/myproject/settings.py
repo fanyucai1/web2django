@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -107,14 +108,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'zh-hans'
-
-TIME_ZONE = 'Asia/Shanghai'
-
-USE_I18N = True
-
-USE_TZ = True
-
+LANGUAGE_CODE = 'zh-hans'# 默认语言代码
+TIME_ZONE = 'Asia/Shanghai'# 默认时区
+#USE_I18N = True# 启用国际化支持
+USE_L10N = False# 启用本地化支持
+USE_TZ = True# 启用时区支持
+DATETIME_FORMAT = 'Y年n月j日 H:i:s'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -132,4 +131,3 @@ MEDIA_URL = '/media/'#添加
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
